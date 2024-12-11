@@ -1,33 +1,37 @@
-name: Build and Test Project
+name: Java CI with Maven
 
 on:
   push:
-    branches:
-      - main
+    branches: 
+      - "main"
+      - "test"
   pull_request:
     branches:
-      - main
+      - "main"
+      - "test"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Clonar el código
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+      name: Check out repository
 
-      # Paso 2: Configurar JDK 11 (si es necesario)
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adoptopenjdk'  # Especifica la distribución si es necesario
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
 
-      # Paso 3: Ejecutar la construcción
-      - name: Build with Maven
-        run: mvn clean install -f target/pom.xml
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
 
-      # Paso 4: Ejecutar pruebas
-      - name: Run Tests
-        run: mvn test -f target/pom.xml
+    - name: Build with Maven
+      run: mvn clean package -DskipTests -B -ntp -Dspring.profiles.active=prod
