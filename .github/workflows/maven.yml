@@ -1,36 +1,33 @@
-name: Build and Test Swagger Project
+name: Build and Test Project
 
-# Controla cuándo se ejecutará el flujo de trabajo.
 on:
   push:
     branches:
-      - main  # o la rama que desees que active el flujo de trabajo.
+      - main
   pull_request:
     branches:
-      - main  # o la rama que desees.
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # El flujo de trabajo se ejecutará en un contenedor Ubuntu.
+    runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Checkout el código del repositorio
+      # Paso 1: Clonar el código
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Paso 2: Configurar JDK (Java Development Kit)
-      - name: Set up JDK 17
+      # Paso 2: Configurar JDK 11 (si es necesario)
+      - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '11'
+          distribution: 'adoptopenjdk'  # Especifica la distribución si es necesario
 
-      # Paso 3: Instalar dependencias y compilar el proyecto
+      # Paso 3: Ejecutar la construcción
       - name: Build with Maven
-        run: mvn clean install -f target/pom.xml 
+        run: mvn clean install -f target/pom.xml
 
-
-      # Paso 5: (Opcional) Desplegar el artefacto si todo sale bien
-      - name: Deploy (Ejemplo)
-        run: |
-          echo "Desplegando artefacto"
-          # Aquí agregarías los pasos para desplegar tu artefacto si fuera necesario.
+      # Paso 4: Ejecutar pruebas
+      - name: Run Tests
+        run: mvn test -f target/pom.xml
