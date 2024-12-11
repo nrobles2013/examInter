@@ -29,6 +29,5 @@ jobs:
           distribution: 'temurin'
           maven-version: '3.8.1'    # Optional: Specify a specific Maven version, e.g., 3.8.1
 
-      # Step 4: Build with Maven
-      - name: Build with Maven
-        run: mvn clean
+      - name: Clean project with Maven
+        run: mvn -f examInter/pom.xml clean  # Cambia a la ruta del pom.xml en tu proyecto
