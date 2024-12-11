@@ -23,6 +23,14 @@ jobs:
           distribution: 'temurin'
           maven-version: '3.8.1'    # Optional: Specify a specific Maven version, e.g., 3.8.1
 
-      # Step 4: Build with Maven
-      - name: Build with Maven
-        run: mvn clean
+      - name: Verify pom.xml exists
+        run: |
+          if [ ! -f pom.xml ]; then
+            echo "Error: pom.xml not found in the current directory."
+            exit 1
+          fi
+          cat pom.xml  # Imprimir el contenido de pom.xml como verificación
+
+      # Paso 4: Ejecutar `mvn clean`
+      - name: Clean project with Maven
+        run: mvn clean  # Ejecuta mvn clean para limpiar el proyecto
