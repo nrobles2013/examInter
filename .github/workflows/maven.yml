@@ -28,9 +28,6 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -f target/pom.xml 
 
-      # Paso 4: Ejecutar las pruebas
-      - name: Run tests
-        run: mvn test -f target/pom.xml  
 
       # Paso 5: (Opcional) Desplegar el artefacto si todo sale bien
       - name: Deploy (Ejemplo)
