@@ -9,30 +9,26 @@ on:
       - main  # Se ejecuta cuando se hace un PR hacia la rama `main`
 
 jobs:
-  clean:
-    runs-on: ubuntu-latest  # Ejecuta en Ubuntu
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      # Paso 1: Obtener el código del repositorio
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Paso 2: Configurar Java (ajusta la versión si es necesario)
-      - name: Set up JDK 17
+      - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # Puedes cambiar la versión de Java según tu proyecto
-          distribution: 'adoptopenjdk'
+          java-version: '17'         # Specifies Java 17
+          distribution: 'temurin'    # Specifies the JDK distribution (Temurin is a popular choice)
 
-      # Paso 3: Verificar que el archivo pom.xml existe
-      - name: Verify pom.xml exists
-        run: |
-          if [ ! -f pom.xml ]; then
-            echo "Error: pom.xml not found in the current directory."
-            exit 1
-          fi
-          cat pom.xml  # Imprimir el contenido de pom.xml como verificación
+      # Step 3: Set up Maven (if needed)
+      - name: Set up Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'         # Ensure that Maven uses Java 17
+          distribution: 'temurin'
+          maven-version: '3.8.1'    # Optional: Specify a specific Maven version, e.g., 3.8.1
 
-      # Paso 4: Ejecutar `mvn clean`
-      - name: Clean project with Maven
-        run: mvn clean  # Ejecuta mvn clean para limpiar el proyecto
+      # Step 4: Build with Maven
+      - name: Build with Maven
+        run: mvn clean
