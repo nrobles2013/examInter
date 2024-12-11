@@ -30,4 +30,4 @@ jobs:
           maven-version: '3.8.1'    # Optional: Specify a specific Maven version, e.g., 3.8.1
 
       - name: Clean project with Maven
-        run: mvn -f examInter/pom.xml clean  # Cambia a la ruta del pom.xml en tu proyecto
+        run: mvn -f ../pom.xml clean  # Cambia a la ruta del pom.xml en tu proyecto
