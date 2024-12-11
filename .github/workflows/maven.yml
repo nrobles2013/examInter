@@ -1,28 +1,30 @@
-name: Set up Java 17
+name: Clean Maven Project
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main  # Se ejecuta cuando se hace push a la rama `main`
+  pull_request:
+    branches:
+      - main  # Se ejecuta cuando se hace un PR hacia la rama `main`
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  clean:
+    runs-on: ubuntu-latest  # Ejecuta en Ubuntu
+
     steps:
+      # Paso 1: Obtener el código del repositorio
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Set up Java 17
+      # Paso 2: Configurar Java (ajusta la versión si es necesario)
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'         # Specifies Java 17
-          distribution: 'temurin'    # Specifies the JDK distribution (Temurin is a popular choice)
+          java-version: '17'  # Puedes cambiar la versión de Java según tu proyecto
+          distribution: 'adoptopenjdk'
 
-      # Step 3: Set up Maven (if needed)
-      - name: Set up Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'         # Ensure that Maven uses Java 17
-          distribution: 'temurin'
-          maven-version: '3.8.1'    # Optional: Specify a specific Maven version, e.g., 3.8.1
-
+      # Paso 3: Verificar que el archivo pom.xml existe
       - name: Verify pom.xml exists
         run: |
           if [ ! -f pom.xml ]; then
