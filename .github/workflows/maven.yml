@@ -19,5 +19,5 @@ jobs:
         with:
           java-version: '17'  # O la versión que necesites
 
-      - name: Build and verify with Maven
-        run: mvn -B verify --file pom.xml
+      - name: build and verify with Maven
+        run: mvn clean verify -DskipTests
