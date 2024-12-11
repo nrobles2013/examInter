@@ -25,4 +25,4 @@ jobs:
 
       # Step 4: Build with Maven
       - name: Build with Maven
-        run: mvn clean install    # Run Maven build
+        run: mvn -f path/pom.xml clean install
