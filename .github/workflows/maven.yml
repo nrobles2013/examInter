@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-build-artifacts
-          path: /Swagger/target/*.jar  # O el 
+          path: ./Swagger/target/*.jar  # O el 
